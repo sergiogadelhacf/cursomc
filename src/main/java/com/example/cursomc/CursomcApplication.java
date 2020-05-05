@@ -8,9 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.cursomc.domain.Categoria;
+import com.example.cursomc.domain.Cidade;
+import com.example.cursomc.domain.Estado;
 import com.example.cursomc.domain.Produto;
-
 import com.example.cursomc.repositories.CategoriaRepository;
+import com.example.cursomc.repositories.CidadeRepository;
+import com.example.cursomc.repositories.EstadoRepository;
 import com.example.cursomc.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -20,6 +23,10 @@ public class CursomcApplication implements CommandLineRunner {
 	private CategoriaRepository catRepo;
 	@Autowired
 	private ProdutoRepository pRepo;
+	@Autowired
+	private CidadeRepository cRepo;
+	@Autowired
+	private EstadoRepository estRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -28,8 +35,8 @@ public class CursomcApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Categoria cat1 = new Categoria(null, "Informatica");
-		Categoria cat2 = new Categoria(null, "Escritorio");
+		Categoria cat1 = new Categoria(null, "Informática");
+		Categoria cat2 = new Categoria(null, "Escritório");
 		
 		Produto p1 = new Produto(null, "Computador", 2000.00);
 		Produto p2 = new Produto(null, "Impressora", 800.00);
@@ -44,6 +51,19 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		catRepo.saveAll(Arrays.asList(cat1, cat2));
 		pRepo.saveAll(Arrays.asList(p1,p2,p3));
+
+		Estado est1 = new Estado(null, "Minas Gerais");
+		Estado est2 = new Estado(null, "São Paulo");
+		
+		Cidade c1 = new Cidade(null, "Uberlândia", est1);
+		Cidade c2 = new Cidade(null, "São Paulo", est2);
+		Cidade c3 = new Cidade(null, "Campinas", est2);
+		
+		est1.getCidades().addAll(Arrays.asList(c1));
+		est2.getCidades().addAll(Arrays.asList(c2,c3));
+		
+		estRepo.saveAll(Arrays.asList(est1,est2));
+		cRepo.saveAll(Arrays.asList(c1,c2,c3));
 
 	}
 
